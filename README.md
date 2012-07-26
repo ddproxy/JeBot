@@ -36,7 +36,7 @@ JeBot's commands are all prefixed by ".", for example: ".ping". IAmABotAMA uses 
 * **.whoami:** Repeats your nick to you.
 * **.wiki \[terms]:** Searches [Wikipedia](http://en.wikipedia.org) for \[terms] and returns the first result.
 * **.youtube \[video]:** Looks up and shows information about \[video]. Valid options for \[video] include "dQw4w9WgXcQ", "http://www.youtube.com/watch?v=dQw4w9WgXcQ", and "http://youtu.be/dQw4w9WgXcQ", and variations on that theme. Alias: .yt
-
+* **.xkcd [terms]:** Searches for relevant xkcd and returns the first result
 Manager-Only Commands
 ----------------------
 
