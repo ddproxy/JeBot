@@ -80,6 +80,7 @@ namespace JeBot
             RegisterManagerCommand("op", DoOp);
             RegisterManagerCommand("topic", DoTopic);
             RegisterManagerCommand("restart", DoRestart);
+            RegisterManagerCommand("stop", DoStop);
         }
 
         #region Event Handlers
@@ -509,7 +510,27 @@ namespace JeBot
 
         private string DoRestart(IrcCommand command)
         {
-            this.SendMessage(command.Destination, command.Message);
+            this.SendMessage(command.Destination, "I'm restarting...");
+            Process myprocess = new Process();
+            try
+            {
+                myprocess.StartInfo.UseShellExecute = true;
+                myprocess.StartInfo.FileName = "jebot.exe";
+                myprocess.StartInfo.CreateNoWindow = false;
+                myprocess.Start();
+                Environment.Exit(0);
+            }
+            catch (Exception e)
+            {
+                this.SendMessage(command.Destination, "I can't restart myself");
+            }
+            return null;
+        }
+
+        private string DoStop(IrcCommand command)
+        {
+            this.SendMessage(command.Destination, "I'm stopping...");
+            Environment.Exit(0);
             return null;
         }
 
