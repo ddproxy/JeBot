@@ -41,22 +41,22 @@ namespace JeBot
 
             // Userspace commands
             RegisterCommand("down", DoDown);
-            RegisterCommand("docs", (command) => "https://github.com/irc-bot-framework/JeBot/blob/master/README.md");
-            RegisterCommand("documentation", (command) => "https://github.com/irc-bot-framework/JeBot/blob/master/README.md"); // alias
-            RegisterCommand("help", (command) => "https://github.com/irc-bot-framework/JeBot/blob/master/README.md"); // alias
-            RegisterCommand("man", (command) => "https://github.com/irc-bot-framework/JeBot/blob/master/README.md"); // alias
+            RegisterCommand("docs", (command) => "https://github.com/ddproxy/JeBot/blob/master/README.md");
+            RegisterCommand("documentation", (command) => "https://github.com/ddproxy/JeBot/blob/master/README.md"); // alias
+            RegisterCommand("help", (command) => "https://github.com/ddproxy/JeBot/blob/master/README.md"); // alias
+            RegisterCommand("man", (command) => "https://github.com/ddproxy/JeBot/blob/master/README.md"); // alias
             RegisterCommand("hug", DoHug);
             RegisterCommand("identify", DoIdentify);
             RegisterCommand("karma", DoKarma);
-            RegisterCommand("lwjgl", (command) => "Can you use git? Use this script: https://gist.github.com/2086385 No? Read this: http://www.minecraftwiki.net/wiki/Tutorials/Update_LWJGL");
-            RegisterCommand("mwiki", DoMwiki);
-            RegisterCommand("owner", (command) => "I was created and am maintained by SirCmpwn (sir@cmpwn.com). Please send him an email if you find a bug or want a new feature.");
+            RegisterCommand("swiki", DoSwiki);
+            RegisterCommand("sv", DoSv);
+            RegisterCommand("owner", (command) => "I was created by SirCmpwn (sir@cmpwn.com) and forked by ddproxy (ddproxy@gmail.com). Please send ddproxy an email if you find a bug or want a new feature.");
             RegisterCommand("ping", DoPing);
             RegisterCommand("readers", DoReaders);
             RegisterCommand("search", DoSearch);
             RegisterCommand("lucky", DoSearch); // alias
             RegisterCommand("servers", DoServers);
-            RegisterCommand("source", (command) => "https://github.com/irc-bot-framework/JeBot");
+            RegisterCommand("source", (command) => "https://github.com/ddproxy/JeBot");
             RegisterCommand("status", DoStatus);
             RegisterCommand("title", DoTitle);
             RegisterCommand("twitter", DoTwitter);
@@ -79,6 +79,7 @@ namespace JeBot
             RegisterManagerCommand("kick", DoKick);
             RegisterManagerCommand("op", DoOp);
             RegisterManagerCommand("topic", DoTopic);
+            RegisterManagerCommand("restart", DoRestart);
         }
 
         #region Event Handlers
@@ -235,11 +236,22 @@ namespace JeBot
                 GetDuration(karma.Created) + ". http://reddit.com/u/" + command.Parameters[0];
         }
 
-        private string DoMwiki(IrcCommand command)
+        private string DoSwiki(IrcCommand command)
         {
             if (string.IsNullOrEmpty(command.Message))
                 return null;
-            var results = DoGoogleSearch("site:minecraftwiki.net " + command.Message);
+            var results = DoGoogleSearch("site:survivegame.com/survivewiki " + command.Message);
+            if (results.Count == 0)
+                return "No results found.";
+            else
+                return results.First();
+        }
+
+        private string DoSv (IrcCommand command)
+        {
+            if (string.IsNullOrEmpty(command.Message))
+                return null;
+            var results = DoGoogleSearch("site:survivegame.com " + command.Message);
             if (results.Count == 0)
                 return "No results found.";
             else
@@ -492,6 +504,12 @@ namespace JeBot
                 {
                     this.Topic(command.Destination, command.Message);
                 });
+            return null;
+        }
+
+        private string DoRestart(IrcCommand command)
+        {
+            this.SendMessage(command.Destination, command.Message);
             return null;
         }
 
